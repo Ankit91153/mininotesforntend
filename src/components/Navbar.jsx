@@ -19,7 +19,6 @@ const Navbar = () => {
 
  
   const handleLogout = () => {
-    // Dispatch logout action to clear the token from the Redux store
     dispatch(logout());
     navigate("/login");
   };

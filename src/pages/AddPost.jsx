@@ -31,6 +31,7 @@ const AddPost = () => {
             title:"",
             description:""
         })
+        
     }
   return (
     <div className='w-full'>

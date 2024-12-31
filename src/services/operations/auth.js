@@ -20,7 +20,6 @@ export function signUp({ name, email, password }, navigate) {
         password,
       });
 
-      console.log("SIGNUP API RESPONSE............", response);
 
       if (!response.data.success) {
         toast.error(response.data.message);
@@ -30,7 +29,7 @@ export function signUp({ name, email, password }, navigate) {
       }
       navigate("/login");
     } catch (error) {
-      console.log("SIGNUP API ERROR............", error);
+      ("SIGNUP API ERROR............", error);
       navigate("/signup");
     }
     dispatch(setLoading(false));
@@ -45,7 +44,6 @@ export function login({ email, password }, navigate) {
         email,
         password,
       });
-      console.log("LOGIN API RESPONSE............", response);
       if (!response.data.success) {
         toast.error(response.data.message);
         throw new Error(response.data.message);
@@ -63,7 +61,6 @@ export function login({ email, password }, navigate) {
       }
       navigate("/");
     } catch (err) {
-      console.log("LOGIN API ERROR............", err);
       navigate("/login");
     }
 
@@ -78,7 +75,7 @@ export function logout() {
     localStorage.removeItem("user");
     dispatch(setToken(null));
     dispatch(setSignupData(null));
-
+    toast.success("Logout Successfully");
     dispatch({ type: "LOGOUT_SUCCESS" });
   };
 }
@@ -87,23 +84,17 @@ export function addNote({title,description,userId},navigate){
     return async(dispatch)=>{
         dispatch(setLoading(true));
         try {
-            console.log("Hello");
-            console.log(title,description,userId);
-            console.log(CREATE_NOTE_API);
             const token = Cookies.get('token');
-            console.log(token);
             axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
             const headers = {
               'Authorization': `Bearer ${token}`,
               'Custom-Header': 'Custom-Value'
           };
 
-          console.log("header",headers);
           
             const response = await apiConnector("POST", CREATE_NOTE_API, {
                 title,description,userId
             },headers);
-            console.log("CREATE POST API RESPONSE............", response);
             if (!response.data.success) {
               toast.error(response.data.message);
               throw new Error(response.data.message);
@@ -111,9 +102,8 @@ export function addNote({title,description,userId},navigate){
               
               toast.success("Create Post Successfully");
             }
-            navigate("/addnotes");
+            navigate("/allNotes");
           } catch (err) {
-            console.log("CREATE POST API ERROR............", err);
             navigate("/addnotes");
           }
         dispatch(setLoading(false));
@@ -137,7 +127,6 @@ export function allNote({id}){
         const response = await apiConnector("POST", FETCH_ALL_NOTE_API, {
             id
         },headers);
-        console.log("FETCH TASK API RESPONSE............", response);
         if (!response.data.success) {
           toast.error(response.data.message);
           throw new Error(response.data.message);
@@ -147,7 +136,6 @@ export function allNote({id}){
           dispatch(setAllTask(response.data.data))
         }
       } catch (err) {
-        console.log("FETCH ALL TASK API ERROR............", err);
       }
     dispatch(setLoading(false));
   }
@@ -168,7 +156,6 @@ export function deleteTask(id){
         const response = await apiConnector("POST", DELETE_NOTE_API, {
             id
         },headers);
-        console.log("DELETE TASK API RESPONSE............", response);
         if (!response.data.success) {
           toast.error(response.data.message);
           throw new Error(response.data.message);
@@ -179,7 +166,6 @@ export function deleteTask(id){
           // setTasks()
         }
       } catch (err) {
-        console.log("DELETE TASK API ERROR............", err);
       }
     dispatch(setLoading(false));
   }
@@ -199,7 +185,6 @@ export function showTask(id,setUpdateData){
         const response = await apiConnector("POST", SHOW_NOTE_API, {
             id
         },headers);
-        console.log("DELETE TASK API RESPONSE............", response);
         if (!response.data.success) {
           toast.error(response.data.message);
           throw new Error(response.data.message);
@@ -208,7 +193,6 @@ export function showTask(id,setUpdateData){
           // setTasks()
         }
       } catch (err) {
-        console.log("DELETE TASK API ERROR............", err);
       }
     dispatch(setLoading(false));
   }
@@ -228,7 +212,6 @@ export function udpateTask(id,title,description){
         const response = await apiConnector("POST", UPDATE_NOTE_API, {
             id,title,description
         },headers);
-        console.log("UPDATE TASK API RESPONSE............", response);
         if (!response.data.success) {
           toast.error(response.data.message);
           throw new Error(response.data.message);
@@ -239,7 +222,6 @@ export function udpateTask(id,title,description){
           // setTasks()
         }
       } catch (err) {
-        console.log("UPDATE TASK API ERROR............", err);
       }
     dispatch(setLoading(false));
   }
